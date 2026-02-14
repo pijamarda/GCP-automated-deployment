@@ -11,6 +11,7 @@ terraform {
 
 provider "google" {
   # Configuration options
+   project = "vindrogames-backend-develop"
 }
 
 resource "google_compute_network" "vpc_network" {

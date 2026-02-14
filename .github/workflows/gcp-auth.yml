@@ -3,6 +3,7 @@ name: Deploy Network Infrastructure
 on:
   push:
     branches: [main]
+    # Only triggers when files inside src/network-infra/ are changed
     paths:
       - 'src/network-infra/**'
 
