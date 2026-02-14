@@ -1,0 +1,26 @@
+name: GCP Authentication
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/network-infra/**'
+
+jobs:
+  build:
+    permissions:
+      id-token: write
+      contents: read
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          create_credentials_file: true
+          workload_identity_provider: 'projects/165422733222/locations/global/workloadIdentityPools/github-federation-pool/providers/actions-provider'
+          service_account: 'service-account-github-actions@vindrogames-backend-develop.iam.gserviceaccount.com'
