@@ -1,4 +1,4 @@
-name: GCP Authentication
+name: Deploy Network Infrastructure
 
 on:
   push:
@@ -7,15 +7,22 @@ on:
       - 'src/network-infra/**'
 
 jobs:
-  build:
+  deploy:
     permissions:
       id-token: write
       contents: read
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: src/network-infra
+
     steps:
       - uses: actions/checkout@v3
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
@@ -24,3 +31,12 @@ jobs:
           create_credentials_file: true
           workload_identity_provider: 'projects/165422733222/locations/global/workloadIdentityPools/github-federation-pool/providers/actions-provider'
           service_account: 'service-account-github-actions@vindrogames-backend-develop.iam.gserviceaccount.com'
+
+      - name: OpenTofu Init
+        run: tofu init
+
+      - name: OpenTofu Plan
+        run: tofu plan
+
+      - name: OpenTofu Apply
+        run: tofu apply -auto-approve
