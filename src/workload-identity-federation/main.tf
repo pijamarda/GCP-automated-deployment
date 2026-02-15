@@ -31,7 +31,7 @@ resource "google_iam_workload_identity_pool_provider" "example" {
   disabled                           = false
   attribute_condition = <<EOT
     assertion.repository_owner_id == "2150460" &&
-    attribute.repository_id == "1158054706" &&
+    assertion.repository_id == "1158054706" &&
     assertion.ref == "refs/heads/main" &&
     assertion.ref_type == "branch" 
 EOT
